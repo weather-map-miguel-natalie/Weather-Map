@@ -37,7 +37,7 @@
     <script src="js/mapbox-geocoder-utils.js"></script>
 </head>
 <body>
-    <h1>My First Mapbox Map!</h1>
+    <h1>Mapbox</h1>
 
     <div id="cardContainer"></div>
 
@@ -53,121 +53,126 @@
     <!-- Custom JS -->
     <script src="js/keys.js"></script>
     <script>
-//         (async function () {
-//             "use strict";
-// //latlon
-//
-//             mapboxgl.accessToken = MAPBOX_API_KEY;
-//             const map = new mapboxgl.Map({
-//                 container: 'map',
-//                 style: 'mapbox://styles/mapbox/streets-v11',
-//                 zoom: 10,
-//                 center: [-98.4916, 29.4252]
-//             });
-//
-//             map.addControl(
-//                 new MapboxGeocoder({
-//                     accessToken: mapboxgl.accessToken,
-//                     mapboxgl: mapboxgl
-//                 }),
-//                 'top-left'
-//             );
-//
-//             let queryParams = new URLSearchParams({
-//                 APPID: WEATHERMAP_API_KEY,
-//                 lat: 29.423017,
-//                 lon: -98.48527,
-//                 units: "imperial"
-//             });
-// //event listener
-//
-//             const cc = document.getElementById("cardContainer");
-//             const base = `https://api.openweathermap.org/data/2.5/onecall?${queryParams}`;
-//             console.log(base);
-//             fetch(base).then((response) => {
-//                 return response.json()
-//             }).then((data) => {
-//                 console.log(data);
-//                 for (let i = 0; i < 5; i++) {
-//                     let date = new Date(data.daily[i].dt * 1000)
-//                     cc.innerHTML +=
-//                         `<div class="cards">
-//                             <div><h1>${date.toDateString()}</h1></div>
-//                             <div><h1>${data.daily[i].temp.day}°</h1></div>
-//                             <div><h2>${data.daily[i].weather[0].description}</h2></div>
-//                             <div><p>Humidity ${data.daily[i].humidity}%</p></div>
-//                          </div> <br>
-//                     `;
-//                 }
-//             });
-//
-//             //fetch
-//
-//         })();
-const geo = document.getElementById("geo");
-const search = document.getElementById("search");
-// const submit = document.getElementById("submit");
-let lon = -98.491142;
-let lat = 45.424349;
-geo.addEventListener("click", function getCurrentLocation() {
-    if (navigator.geolocation) {
-        console.log("geolocation");
-        navigator.geolocation.getCurrentPosition((position) => {
-            lon = position.coords.longitude;
-            lat = position.coords.latitude;
-        })
-    }
-    else {
-        alert("cant get geolcation on this device");
-    }
-    console.log(lon);
-    console.log(lat);
-    renderMap({center:lon,lat});
-    renderWeather(lon, lat);
-    geo.innerText = `confirm your geolocation?`;
-});
-search.addEventListener("input", getLatLngFromAddress);
-// submit.addEventListener("click", function (){})
-function renderMap() {
-    mapboxgl.accessToken = token;
-    const map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/bjmarks13/cl5oonlkd008n14l1q9u9d1tv',
-        zoom: 10,
-        center: [ lon, lat ]
-    });
-}
-renderMap();
-function renderWeather() {
-    let temperature = document.querySelectorAll(".temp");
-    let summary = document.querySelectorAll(".summary");
-    let icon = document.querySelectorAll(".icon");
-    const base = `http://api.openweathermap.org/data/2.5/onecall?lon=${lon}&lat=${lat}&appid=${api}&units=imperial`;
-    // console.log(base);
-    fetch(base).then((response) => { return response.json()}).then((data) => {
-        // console.log(data);
-        for (let i = 0; i < 7; i++) {
-            temperature[i].textContent = data.daily[i].temp.day + "°F";
-            summary[i].textContent = data.daily[i].weather[0].description;
-            let icon1 = data.daily[i].weather[0].icon;
-            icon[i].innerHTML = `<img src="http://openweathermap.org/img/wn/${icon1}.png" style= 'height:10rem'>`;
-        }
-    });
-}
-renderWeather();
-async function getLatLngFromAddress() {
-    console.log(search.value)
-    const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
-    return fetch(`${url}${encodeURIComponent(search.value)}.json?access_token=${token}`)
-        .then(async function(res) {
-            const data = await res.json();
-            console.log(data.features[0].center)
-            lon = data.features[0].center[0];
-            lat = data.features[0].center[1];
-            renderMap({center: lon , lat});
-            renderWeather(lon, lat)
-        }).catch(()=>{console.log("cant find place")});
-}
+        (async function () {
+            "use strict";
+//latlon
+
+            mapboxgl.accessToken = MAPBOX_API_KEY;
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                zoom: 10,
+                center: [-98.4916, 29.4252]
+            });
+
+            map.addControl(
+                new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    mapboxgl: mapboxgl
+                }),
+                'top-left'
+            );
+
+            let queryParams = new URLSearchParams({
+                APPID: WEATHERMAP_API_KEY,
+                lat: 29.423017,
+                lon: -98.48527,
+                units: "imperial"
+            });
+//event listener
+
+            const cc = document.getElementById("cardContainer");
+            const base = `https://api.openweathermap.org/data/2.5/onecall?${queryParams}`;
+            console.log(base);
+            fetch(base).then((response) => {
+                return response.json()
+            }).then((data) => {
+                console.log(data);
+                for (let i = 0; i < 5; i++) {
+                    let date = new Date(data.daily[i].dt * 1000)
+                    cc.innerHTML +=
+                        `<div class="cards">
+                            <div><h1>${date.toDateString()}</h1></div>
+                            <div><h1>${data.daily[i].temp.day}°</h1></div>
+                            <div><h2>${data.daily[i].weather[0].description}</h2></div>
+                            <div><p>Humidity ${data.daily[i].humidity}%</p></div>
+                         </div> <br>
+                    `;
+                }
+            });
+
+            //fetch
+
+        })();
+
+
+
+
+
+// const geo = document.getElementById("geo");
+// const search = document.getElementById("search");
+// // const submit = document.getElementById("submit");
+// let lon = -98.491142;
+// let lat = 45.424349;
+// geo.addEventListener("click", function getCurrentLocation() {
+//     if (navigator.geolocation) {
+//         console.log("geolocation");
+//         navigator.geolocation.getCurrentPosition((position) => {
+//             lon = position.coords.longitude;
+//             lat = position.coords.latitude;
+//         })
+//     }
+//     else {
+//         alert("cant get geolcation on this device");
+//     }
+//     console.log(lon);
+//     console.log(lat);
+//     renderMap({center:lon,lat});
+//     renderWeather(lon, lat);
+//     geo.innerText = `confirm your geolocation?`;
+// });
+// search.addEventListener("input", getLatLngFromAddress);
+// // submit.addEventListener("click", function (){})
+// function renderMap() {
+//     mapboxgl.accessToken = MAPBOX_API_KEY;
+//     const map = new mapboxgl.Map({
+//         container: 'map',
+//         style: 'mapbox://styles/bjmarks13/cl5oonlkd008n14l1q9u9d1tv',
+//         zoom: 10,
+//         center: [ lon, lat ]
+//     });
+// }
+// renderMap();
+// function renderWeather() {
+//     let temperature = document.querySelectorAll(".temp");
+//     let summary = document.querySelectorAll(".summary");
+//     let icon = document.querySelectorAll(".icon");
+//     const base = `http://api.openweathermap.org/data/2.5/onecall?lon=${lon}&lat=${lat}&appid=${api}&units=imperial`;
+//     // console.log(base);
+//     fetch(base).then((response) => { return response.json()}).then((data) => {
+//         // console.log(data);
+//         for (let i = 0; i < 7; i++) {
+//             temperature[i].textContent = data.daily[i].temp.day + "°F";
+//             summary[i].textContent = data.daily[i].weather[0].description;
+//             let icon1 = data.daily[i].weather[0].icon;
+//             icon[i].innerHTML = `<img src="http://openweathermap.org/img/wn/${icon1}.png" style= 'height:10rem'>`;
+//         }
+//     });
+// }
+// renderWeather();
+// async function getLatLngFromAddress() {
+//     console.log(search.value)
+//     const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+//     return fetch(`${url}${encodeURIComponent(search.value)}.json?access_token=${token}`)
+//         .then(async function(res) {
+//             const data = await res.json();
+//             console.log(data.features[0].center)
+//             lon = data.features[0].center[0];
+//             lat = data.features[0].center[1];
+//             renderMap({center: lon , lat});
+//             renderWeather(lon, lat)
+//         }).catch(()=>{console.log("cant find place")});
+// }
     </script>
 </body>
 </html>
