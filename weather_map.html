@@ -29,10 +29,6 @@
             justify-content: space-evenly;
             position: center;
         }
-        .map-input {
-            display: flex;
-            justify-content: center;
-        }
     </style>
     <script src="mapbox-geocoder-utils.js"></script>
 </head>
@@ -48,6 +44,7 @@
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
     <!-- The HTML element that serves as the Mapbox container -->
     <div id='map'></div>
+    <input type="text" id="search" placeholder="Search for location">
     <!-- Mapbox JS -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <!-- Custom JS -->
@@ -65,13 +62,13 @@
                 center: [-98.4916, 29.4252]
             });
 
-            map.addControl(
-                new MapboxGeocoder({
-                    accessToken: mapboxgl.accessToken,
-                    mapboxgl: mapboxgl
-                }),
-                'top-left'
-            );
+            // map.addControl(
+            //     new MapboxGeocoder({
+            //         accessToken: mapboxgl.accessToken,
+            //         mapboxgl: mapboxgl
+            //     }),
+            //     'top-left'
+            // );
 
             let queryParams = new URLSearchParams({
                 APPID: WEATHERMAP_API_KEY,
@@ -80,6 +77,8 @@
                 units: "imperial"
             });
 //event listener
+
+
 
             const cc = document.getElementById("cardContainer");
             const base = `https://api.openweathermap.org/data/2.5/onecall?${queryParams}`;
@@ -100,6 +99,22 @@
                     `;
                 }
             });
+
+            const input = document.getElementById("search");
+            const search = new mapboxgl.Map.search(input);
+
+            search.addEventListener("input", );
+// // submit.addEventListener("click", function (){})
+function renderMap() {
+    mapboxgl.accessToken = MAPBOX_API_KEY;
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        zoom: 10,
+        center: [-98.4916, 29.4252]
+    });
+}
+renderMap();
 
 
         })();
